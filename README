@@ -1,0 +1,81 @@
+NAME
+    MooseX::Types::Path::Class::MoreCoercions - Coerce stringable objects to
+    work with MooseX::Types::Path::Class
+
+VERSION
+    version 0.001
+
+SYNOPSIS
+      ### specification of type constraint with coercion
+
+      package Foo;
+
+      use Moose;
+      use MooseX::Types::Path::Class::MoreCoercions qw/File/;
+
+      has filename => (
+        is => 'ro',
+        isa => 'File',
+        coerce => 1,
+      );
+
+      ### usage in code
+
+      my $tmp = File::Temp->new;
+
+      Foo->new( filename => $tmp ); # coerced to Path::Class::File
+
+DESCRIPTION
+    This module extends MooseX::Types::Path::Class to allow objects that
+    have overloaded stringification to be coerced into Path::Class objects.
+
+SUBTYPES
+    This module uses MooseX::Types to define the following subtypes.
+
+  Dir
+    "Dir" is a subtype of "MooseX::Types::Path::Class::Dir". Objects with
+    overloaded stringification are coerced as strings if coercion is
+    enabled.
+
+  File
+    "File" is a subtype of "MooseX::Types::Path::Class::File". Objects with
+    overloaded stringification are coerced as strings if coercion is
+    enabled.
+
+CAVEATS
+  Usage with File::Temp
+    Because an argument is stringified and then coerced into a Path::Class
+    object, no reference to the original File::Temp argument is held. Be
+    sure to hold an external reference to it to avoid immediate cleanup of
+    the object at the end of the enclosing scope.
+
+SEE ALSO
+    *   Moose::Manual::Types
+
+    *   MooseX::Types::Path::Class
+
+SUPPORT
+  Bugs / Feature Requests
+    Please report any bugs or feature requests through the issue tracker at
+    <http://rt.cpan.org/Public/Dist/Display.html?Name=MooseX-Types-Path-Clas
+    s-MoreCoercions>. You will be notified automatically of any progress on
+    your issue.
+
+  Source Code
+    This is open source software. The code repository is available for
+    public review and contribution under the terms of the license.
+
+    <https://github.com/dagolden/moosex-types-path-class-morecoercions>
+
+      git clone https://github.com/dagolden/moosex-types-path-class-morecoercions.git
+
+AUTHOR
+    David Golden <dagolden@cpan.org>
+
+COPYRIGHT AND LICENSE
+    This software is Copyright (c) 2012 by David Golden.
+
+    This is free software, licensed under:
+
+      The Apache License, Version 2.0, January 2004
+

@@ -1,0 +1,43 @@
+---
+abstract: 'Coerce stringable objects to work with MooseX::Types::Path::Class'
+author:
+  - 'David Golden <dagolden@cpan.org>'
+build_requires:
+  File::Find: 0
+  File::Temp: 0
+  Test::More: 0.96
+configure_requires:
+  ExtUtils::MakeMaker: 6.30
+dynamic_config: 0
+generated_by: 'Dist::Zilla version 4.300009, CPAN::Meta::Converter version 2.120630'
+license: apache
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: MooseX-Types-Path-Class-MoreCoercions
+no_index:
+  directory:
+    - t
+    - xt
+    - examples
+    - corpus
+  package:
+    - DB
+provides:
+  MooseX::Types::Path::Class::MoreCoercions:
+    file: lib/MooseX/Types/Path/Class/MoreCoercions.pm
+    version: 0.001
+requires:
+  Moose: 0
+  MooseX::Types: 0
+  MooseX::Types::Path::Class: 0
+  MooseX::Types::Stringlike: 0
+  Path::Class: 0
+  perl: 5.008001
+  strict: 0
+  warnings: 0
+resources:
+  bugtracker: http://rt.cpan.org/Public/Dist/Display.html?Name=MooseX-Types-Path-Class-MoreCoercions
+  homepage: https://github.com/dagolden/moosex-types-path-class-morecoercions
+  repository: https://github.com/dagolden/moosex-types-path-class-morecoercions.git
+version: 0.001
