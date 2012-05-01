@@ -1,9 +1,9 @@
 NAME
-    MooseX::Types::Path::Class::MoreCoercions - Coerce stringable objects to
-    work with MooseX::Types::Path::Class
+    MooseX::Types::Path::Class::MoreCoercions - More powerful coercion than
+    MooseX::Types::Path::Class
 
 VERSION
-    version 0.001
+    version 0.002
 
 SYNOPSIS
       ### specification of type constraint with coercion
@@ -11,11 +11,17 @@ SYNOPSIS
       package Foo;
 
       use Moose;
-      use MooseX::Types::Path::Class::MoreCoercions qw/File/;
+      use MooseX::Types::Path::Class::MoreCoercions qw/File AbsDir/;
 
       has filename => (
         is => 'ro',
         isa => 'File',
+        coerce => 1,
+      );
+
+      has directory => (
+        is => 'ro',
+        isa => 'AbsDir',
         coerce => 1,
       );
 
@@ -24,10 +30,15 @@ SYNOPSIS
       my $tmp = File::Temp->new;
 
       Foo->new( filename => $tmp ); # coerced to Path::Class::File
+      Foo->new( directory => '.' ); # coerced to dir('.')->absolute
 
 DESCRIPTION
-    This module extends MooseX::Types::Path::Class to allow objects that
-    have overloaded stringification to be coerced into Path::Class objects.
+    This module extends MooseX::Types::Path::Class with more powerful
+    coercions, including:
+
+    *   coercing objects with overloaded stringification
+
+    *   coercing to absolute paths
 
 SUBTYPES
     This module uses MooseX::Types to define the following subtypes.
@@ -37,10 +48,18 @@ SUBTYPES
     overloaded stringification are coerced as strings if coercion is
     enabled.
 
+  AbsDir
+    "AbsDir" is a subtype of "Dir" (above). Objects are also coerced to an
+    absolute path.
+
   File
     "File" is a subtype of "MooseX::Types::Path::Class::File". Objects with
     overloaded stringification are coerced as strings if coercion is
     enabled.
+
+  AbsFile
+    "AbsFile" is a subtype of "File" (above). Objects are also coerced to an
+    absolute path.
 
 CAVEATS
   Usage with File::Temp

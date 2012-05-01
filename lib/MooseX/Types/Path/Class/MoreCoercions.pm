@@ -3,26 +3,48 @@ use strict;
 use warnings;
 
 package MooseX::Types::Path::Class::MoreCoercions;
-# ABSTRACT: Coerce stringable objects to work with MooseX::Types::Path::Class
-our $VERSION = '0.001'; # VERSION
+# ABSTRACT: More powerful coercion than MooseX::Types::Path::Class
+our $VERSION = '0.002'; # VERSION
 
 use Moose;
 use MooseX::Types::Stringlike qw/Stringable/;
 use MooseX::Types::Path::Class ();
 use Path::Class ();
-use MooseX::Types -declare => [qw( Dir File )];
+use MooseX::Types -declare => [qw( Dir File AbsDir AbsFile )];
 
-subtype Dir,
-  as MooseX::Types::Path::Class::Dir;
+subtype Dir, as MooseX::Types::Path::Class::Dir;
+coerce( Dir,
+  @{ MooseX::Types::Path::Class::Dir->coercion->type_coercion_map },
+  from Stringable, via { Path::Class::Dir->new("$_") },
+);
 
-subtype File,
-  as MooseX::Types::Path::Class::File;
+subtype File, as MooseX::Types::Path::Class::File;
+coerce( File,
+  @{ MooseX::Types::Path::Class::File->coercion->type_coercion_map },
+  from Stringable, via { Path::Class::File->new("$_") },
+);
 
-coerce Dir,
-  from Stringable, via { Path::Class::Dir->new("$_") };
+subtype AbsDir,
+  as Dir,
+  where { $_->is_absolute };
 
-coerce File,
-  from Stringable, via { Path::Class::File->new("$_") };
+coerce( AbsDir,
+  ( map { my $c = $_; (ref $c eq "CODE") ? sub { $c->(@_)->absolute } : $c }
+        @{ Dir->coercion->type_coercion_map }
+  ),
+  from Dir, via { $_->absolute },
+);
+
+subtype AbsFile,
+  as File,
+  where { $_->is_absolute };
+
+coerce( AbsFile,
+  ( map { my $c = $_; (ref $c eq "CODE") ? sub { $c->(@_)->absolute } : $c }
+        @{ File->coercion->type_coercion_map }
+  ),
+  from File, via { $_->absolute },
+);
 
 1;
 
@@ -34,11 +56,11 @@ __END__
 
 =head1 NAME
 
-MooseX::Types::Path::Class::MoreCoercions - Coerce stringable objects to work with MooseX::Types::Path::Class
+MooseX::Types::Path::Class::MoreCoercions - More powerful coercion than MooseX::Types::Path::Class
 
 =head1 VERSION
 
-version 0.001
+version 0.002
 
 =head1 SYNOPSIS
 
@@ -47,11 +69,17 @@ version 0.001
   package Foo;
 
   use Moose;
-  use MooseX::Types::Path::Class::MoreCoercions qw/File/;
+  use MooseX::Types::Path::Class::MoreCoercions qw/File AbsDir/;
 
   has filename => (
     is => 'ro',
     isa => 'File',
+    coerce => 1,
+  );
+
+  has directory => (
+    is => 'ro',
+    isa => 'AbsDir',
     coerce => 1,
   );
 
@@ -60,12 +88,24 @@ version 0.001
   my $tmp = File::Temp->new;
 
   Foo->new( filename => $tmp ); # coerced to Path::Class::File
+  Foo->new( directory => '.' ); # coerced to dir('.')->absolute
 
 =head1 DESCRIPTION
 
-This module extends L<MooseX::Types::Path::Class> to allow objects
-that have overloaded stringification to be coerced into L<Path::Class>
-objects.
+This module extends L<MooseX::Types::Path::Class> with more powerful coercions,
+including:
+
+=over 4
+
+=item *
+
+coercing objects with overloaded stringification
+
+=item *
+
+coercing to absolute paths
+
+=back
 
 =for Pod::Coverage method_names_here
 
@@ -78,10 +118,20 @@ This module uses L<MooseX::Types> to define the following subtypes.
 C<Dir> is a subtype of C<MooseX::Types::Path::Class::Dir>.  Objects with
 overloaded stringification are coerced as strings if coercion is enabled.
 
+=head2 AbsDir
+
+C<AbsDir> is a subtype of C<Dir> (above).
+Objects are also coerced to an absolute path.
+
 =head2 File
 
 C<File> is a subtype of C<MooseX::Types::Path::Class::File>.  Objects with
 overloaded stringification are coerced as strings if coercion is enabled.
+
+=head2 AbsFile
+
+C<AbsFile> is a subtype of C<File> (above).
+Objects are also coerced to an absolute path.
 
 =head1 CAVEATS
 
