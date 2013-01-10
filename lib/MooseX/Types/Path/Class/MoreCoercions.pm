@@ -4,7 +4,7 @@ use warnings;
 
 package MooseX::Types::Path::Class::MoreCoercions;
 # ABSTRACT: More powerful coercion than MooseX::Types::Path::Class
-our $VERSION = '0.002'; # VERSION
+our $VERSION = '0.003'; # VERSION
 
 use Moose;
 use MooseX::Types::Stringlike qw/Stringable/;
@@ -52,6 +52,7 @@ coerce( AbsFile,
 # vim: ts=2 sts=2 sw=2 et:
 
 __END__
+
 =pod
 
 =head1 NAME
@@ -60,7 +61,7 @@ MooseX::Types::Path::Class::MoreCoercions - More powerful coercion than MooseX::
 
 =head1 VERSION
 
-version 0.002
+version 0.003
 
 =head1 SYNOPSIS
 
@@ -73,13 +74,13 @@ version 0.002
 
   has filename => (
     is => 'ro',
-    isa => 'File',
+    isa => File,
     coerce => 1,
   );
 
   has directory => (
     is => 'ro',
-    isa => 'AbsDir',
+    isa => AbsDir,
     coerce => 1,
   );
 
@@ -163,7 +164,7 @@ L<MooseX::Types::Path::Class>
 =head2 Bugs / Feature Requests
 
 Please report any bugs or feature requests through the issue tracker
-at L<http://rt.cpan.org/Public/Dist/Display.html?Name=MooseX-Types-Path-Class-MoreCoercions>.
+at L<https://rt.cpan.org/Public/Dist/Display.html?Name=MooseX-Types-Path-Class-MoreCoercions>.
 You will be notified automatically of any progress on your issue.
 
 =head2 Source Code
@@ -173,7 +174,7 @@ public review and contribution under the terms of the license.
 
 L<https://github.com/dagolden/moosex-types-path-class-morecoercions>
 
-  git clone https://github.com/dagolden/moosex-types-path-class-morecoercions.git
+  git clone git://github.com/dagolden/moosex-types-path-class-morecoercions.git
 
 =head1 AUTHOR
 
@@ -188,4 +189,3 @@ This is free software, licensed under:
   The Apache License, Version 2.0, January 2004
 
 =cut
-

@@ -10,7 +10,7 @@ build_requires:
 configure_requires:
   ExtUtils::MakeMaker: 6.30
 dynamic_config: 0
-generated_by: 'Dist::Zilla version 4.300014, CPAN::Meta::Converter version 2.120630'
+generated_by: 'Dist::Zilla version 4.300028, CPAN::Meta::Converter version 2.120921'
 license: apache
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -27,7 +27,7 @@ no_index:
 provides:
   MooseX::Types::Path::Class::MoreCoercions:
     file: lib/MooseX/Types/Path/Class/MoreCoercions.pm
-    version: 0.002
+    version: 0.003
 requires:
   Moose: 0
   MooseX::Types: 0
@@ -38,7 +38,7 @@ requires:
   strict: 0
   warnings: 0
 resources:
-  bugtracker: http://rt.cpan.org/Public/Dist/Display.html?Name=MooseX-Types-Path-Class-MoreCoercions
-  homepage: https://github.com/dagolden/moosex-types-path-class-morecoercions
-  repository: https://github.com/dagolden/moosex-types-path-class-morecoercions.git
-version: 0.002
+  bugtracker: https://rt.cpan.org/Public/Dist/Display.html?Name=MooseX-Types-Path-Class-MoreCoercions
+  homepage: https://metacpan.org/release/MooseX-Types-Path-Class-MoreCoercions
+  repository: git://github.com/dagolden/moosex-types-path-class-morecoercions.git
+version: 0.003
